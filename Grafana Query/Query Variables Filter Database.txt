@@ -1,0 +1,14 @@
+------------------[Filter Tahun]------------------
+SELECT distinct year FROM datamart.dim_time;
+
+------------------[Filter Bulan]------------------
+SELECT distinct bulan FROM datamart.dim_time;
+
+------------------[Filter Cabang]------------------
+SELECT distinct plant_name FROM datamart.dim_plant;
+
+------------------[Filter Material]------------------
+SELECT distinct material_type_name FROM datamart.dim_material;
+
+------------------[Filter Jenis Mobil]------------------
+SELECT distinct jenis_mobil FROM datamart.dim_vendor;

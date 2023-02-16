@@ -1,0 +1,41 @@
+------------------------[Lama Pending]------------------------
+select avg(a.avg_lama_pending) as Pending, $__time(b.tanggal)
+from datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)
+join datamart.dim_plant c on (a.sk_plant = c.sk_plant)
+join datamart.dim_material d on (a.sk_material = d.sk_material)
+join datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)
+where b.year in (${Year:sqlstring})
+and b.bulan in (${Month:sqlstring})
+and c.plant_name in (${Plant:sqlstring})
+and d.material_type_name in (${Material:sqlstring})
+and e.jenis_mobil in (${Jenis_Mobil:sqlstring})
+group by b.tanggal
+order by b.tanggal;
+
+------------------------[Average Bongkar]------------------------
+select avg(a.avg_lama_bongkar)/60 as avg_bongkar, $__time(b.tanggal)
+from datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)
+join datamart.dim_plant c on (a.sk_plant = c.sk_plant)
+join datamart.dim_material e on (a.sk_material = e.sk_material)
+join datamart.dim_vendor f on (a.sk_vendor = f.sk_vendor)
+where b.year in (${Year:sqlstring})
+and b.bulan in (${Month:sqlstring})
+and c.plant_name in (${Plant:sqlstring})
+and e.material_type_name in (${Material:sqlstring})
+and f.jenis_mobil in (${Jenis_Mobil:sqlstring})
+group by b.tanggal
+order by b.tanggal;
+
+------------------------[Average Antri]------------------------
+select avg(a.avg_lama_antri)/60 as avg_antri, $__time(b.tanggal)
+from datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)
+join datamart.dim_plant c on (a.sk_plant = c.sk_plant)
+join datamart.dim_material d on (a.sk_material = d.sk_material)
+join datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)
+where b.year in (${Year:sqlstring})
+and b.bulan in (${Month:sqlstring})
+and c.plant_name in (${Plant:sqlstring})
+and d.material_type_name in (${Material:sqlstring})
+and e.jenis_mobil in (${Jenis_Mobil:sqlstring})
+group by b.tanggal
+order by b.tanggal;

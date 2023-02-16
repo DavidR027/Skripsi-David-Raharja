@@ -1,0 +1,288 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 5,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pending"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "color-text"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "color-text"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.avg_lama_pending) as Pending, $__time(b.tanggal)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.tanggal\norder by b.tanggal;\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Lama Pending",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct year FROM datamart.dim_time;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Year",
+        "multi": false,
+        "name": "Year",
+        "options": [],
+        "query": "SELECT distinct year FROM datamart.dim_time;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct bulan FROM datamart.dim_time;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Month",
+        "multi": false,
+        "name": "Month",
+        "options": [],
+        "query": "SELECT distinct bulan FROM datamart.dim_time;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct plant_name FROM datamart.dim_plant;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Plant",
+        "multi": true,
+        "name": "Plant",
+        "options": [],
+        "query": "SELECT distinct plant_name FROM datamart.dim_plant;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct material_type_name FROM datamart.dim_material;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Material",
+        "multi": true,
+        "name": "Material",
+        "options": [],
+        "query": "SELECT distinct material_type_name FROM datamart.dim_material;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct jenis_mobil FROM datamart.dim_vendor;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Jenis Mobil",
+        "multi": true,
+        "name": "Jenis_Mobil",
+        "options": [],
+        "query": "SELECT distinct jenis_mobil FROM datamart.dim_vendor;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2020-08-13T00:00:00.000Z",
+    "to": "2021-11-30T00:00:00.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Lama Pending",
+  "uid": "AnrmA_24z",
+  "version": 1,
+  "weekStart": ""
+}

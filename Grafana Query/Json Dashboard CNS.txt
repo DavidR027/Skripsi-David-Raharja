@@ -1,0 +1,1120 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 10,
+        "x": 0,
+        "y": 0
+      },
+      "id": 14,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.persen_bongkar) as Persentase_Bongkar, $__time(b.bulan)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.bulan\norder by b.bulan;\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Service Level Bongkar per Bulan (%)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "semi-dark-purple",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 69,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "log": 2,
+              "type": "log"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "hidden"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 10,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.avg_lama_proses)/60 as Bulan, $__time(b.bulan)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.bulan\norder by b.bulan;\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average Proses (Jam)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.hidden",
+                "value": true
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "std_bongkar"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "bulan"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 12,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select $__time(b.bulan),b.bulan+1 as bulan, avg(a.avg_lama_bongkar) as std_bongkar\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan+1 in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\nand bulan <12\ngroup by b.bulan\norder by b.bulan;\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Standard Bongkar",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "#FF9830",
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mobil_datang"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "dibongkar"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "semi-dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 6,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": -45,
+        "xTickLabelSpacing": 100
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.Mobil_Datang) as Mobil_Datang, avg(a.Barang_Dibongkar) as Dibongkar, $__time(b.tanggal)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.tanggal\norder by b.tanggal;\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Mobil Datang & Dibongkar (Jam)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Show Detail",
+              "url": "http://localhost:3000/d/AnrmA_24z/lama-pending?orgId=1&${Year:queryparam}&${Month:queryparam}&${Plant:queryparam}&${Material:queryparam}&${Jenis_Mobil:queryparam}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "pending"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 16,
+      "options": {
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.avg_lama_pending) as Pending, $__time(b.tanggal)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.tanggal\norder by b.tanggal;\n\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Lama Pending (Menit)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Show Detail",
+              "url": "http://localhost:3000/d/3kmpO0dVk/avg-bongkar?orgId=1&${Year:queryparam}&${Month:queryparam}&${Plant:queryparam}&${Material:queryparam}&${Jenis_Mobil:queryparam}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 18,
+        "x": 0,
+        "y": 28
+      },
+      "id": 4,
+      "options": {
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.avg_lama_bongkar)/60 as avg_bongkar, $__time(b.tanggal)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.tanggal\norder by b.tanggal;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average Bongkar (Jam)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 6,
+        "x": 18,
+        "y": 28
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.avg_qty_per_mobil) as QTY, $__time(b.tanggal)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.tanggal\norder by b.tanggal;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average QTY per Mobil",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "qWLVm6HVz"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "blue",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Show Detail",
+              "url": "http://localhost:3000/d/O7CdT_2Vz/avg-antri?orgId=1&${Year:queryparam}&${Month:queryparam}&${Plant:queryparam}&${Material:queryparam}&${Jenis_Mobil:queryparam}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 18,
+        "x": 0,
+        "y": 36
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [
+            "sum"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "9.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "qWLVm6HVz"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select avg(a.avg_lama_antri)/60 as avg_antri, $__time(b.tanggal)\nfrom datamart.fact_trucking a join datamart.dim_time b on (a.sk_waktu = b.sk_waktu)\njoin datamart.dim_plant c on (a.sk_plant = c.sk_plant)\njoin datamart.dim_material d on (a.sk_material = d.sk_material)\njoin datamart.dim_vendor e on (a.sk_vendor = e.sk_vendor)\nwhere b.year in (${Year:sqlstring})\nand b.bulan in (${Month:sqlstring})\nand c.plant_name in (${Plant:sqlstring})\nand d.material_type_name in (${Material:sqlstring})\nand e.jenis_mobil in (${Jenis_Mobil:sqlstring})\ngroup by b.tanggal\norder by b.tanggal;",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Average Lama Antri (Jam)",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": "",
+        "current": {
+          "selected": false,
+          "text": "2020",
+          "value": "2020"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct year FROM datamart.dim_time;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Year",
+        "multi": false,
+        "name": "Year",
+        "options": [],
+        "query": "SELECT distinct year FROM datamart.dim_time;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "10",
+          "value": "10"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct bulan FROM datamart.dim_time;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Month",
+        "multi": false,
+        "name": "Month",
+        "options": [],
+        "query": "SELECT distinct bulan FROM datamart.dim_time;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 3,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct plant_name FROM datamart.dim_plant;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Plant",
+        "multi": true,
+        "name": "Plant",
+        "options": [],
+        "query": "SELECT distinct plant_name FROM datamart.dim_plant;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct material_type_name FROM datamart.dim_material;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Material",
+        "multi": true,
+        "name": "Material",
+        "options": [],
+        "query": "SELECT distinct material_type_name FROM datamart.dim_material;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "qWLVm6HVz"
+        },
+        "definition": "SELECT distinct jenis_mobil FROM datamart.dim_vendor;",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Jenis Mobil",
+        "multi": true,
+        "name": "Jenis_Mobil",
+        "options": [],
+        "query": "SELECT distinct jenis_mobil FROM datamart.dim_vendor;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2020-08-13T00:00:00.000Z",
+    "to": "2021-11-30T00:00:00.000Z"
+  },
+  "timepicker": {
+    "hidden": true
+  },
+  "timezone": "",
+  "title": "Dashboard CNS",
+  "uid": "7NYI7uvVz",
+  "version": 35,
+  "weekStart": ""
+}
