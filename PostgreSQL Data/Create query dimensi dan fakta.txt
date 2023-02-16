@@ -1,0 +1,59 @@
+------------------------------[dim_material]------------------------------
+CREATE TABLE IF NOT EXISTS datamart.dim_material
+(
+    sk_material integer NOT NULL,
+    material_code character varying(45) COLLATE pg_catalog."default",
+    material_name character varying(75) COLLATE pg_catalog."default",
+    material_type_code character varying(6) COLLATE pg_catalog."default",
+    material_type_name character varying(75) COLLATE pg_catalog."default",
+    CONSTRAINT dim_material_pkey PRIMARY KEY (sk_material)
+)
+
+------------------------------[dim_plant]------------------------------
+CREATE TABLE IF NOT EXISTS datamart.dim_plant
+(
+    sk_plant integer NOT NULL,
+    plant_code character varying(10) COLLATE pg_catalog."default",
+    plant_name character varying(75) COLLATE pg_catalog."default",
+    plant_pengirim character varying(20) COLLATE pg_catalog."default",
+    CONSTRAINT dim_plant_pkey PRIMARY KEY (sk_plant)
+)
+
+------------------------------[dim_time]------------------------------
+CREATE TABLE IF NOT EXISTS datamart.dim_time
+(
+    sk_waktu integer NOT NULL,
+    hari double precision,
+    kuartal text COLLATE pg_catalog."default",
+    bulan double precision,
+    year double precision,
+    tanggal date,
+    CONSTRAINT dim_time_pkey PRIMARY KEY (sk_waktu)
+)
+
+------------------------------[dim_vendor]------------------------------
+CREATE TABLE IF NOT EXISTS datamart.dim_vendor
+(
+    sk_vendor integer NOT NULL,
+    vendor_code character varying(50) COLLATE pg_catalog."default",
+    license_no character varying(45) COLLATE pg_catalog."default",
+    jenis_mobil character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT dim_vendor_pkey PRIMARY KEY (sk_vendor)
+)
+
+------------------------------[fact_trucking]------------------------------
+CREATE TABLE IF NOT EXISTS datamart.fact_trucking
+(
+    sk_plant integer,
+    sk_vendor integer,
+    sk_material integer,
+    sk_waktu integer,
+    avg_lama_antri double precision,
+    avg_lama_bongkar double precision,
+    avg_lama_proses double precision,
+    avg_lama_pending double precision,
+    avg_qty_per_mobil double precision,
+    mobil_datang double precision,
+    barang_dibongkar double precision,
+    persen_bongkar double precision
+)
